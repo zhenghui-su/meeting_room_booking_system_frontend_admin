@@ -6,6 +6,7 @@ import { Index } from './pages/Index/Index';
 import { ErrorPage } from './pages/ErrorPage/ErrorPage';
 import { UserManage } from './pages/UserManage/UserManage';
 import { Login } from './pages/Login/Login';
+import { Menu } from './pages/Menu/Menu';
 
 const routes = [
 	{
@@ -14,8 +15,14 @@ const routes = [
 		errorElement: <ErrorPage />,
 		children: [
 			{
-				path: 'user_manage',
-				element: <UserManage />,
+				path: '/',
+				element: <Menu></Menu>,
+				children: [
+					{
+						path: 'user_manage',
+						element: <UserManage />,
+					},
+				],
 			},
 		],
 	},
@@ -24,6 +31,7 @@ const routes = [
 		element: <Login />,
 	},
 ];
+
 const router = createBrowserRouter(routes);
 
 const root = createRoot(document.getElementById('root')!);
