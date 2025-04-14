@@ -1,5 +1,7 @@
 import { message } from 'antd';
 import axios from 'axios';
+import { UserInfo } from '../pages/InfoModify/InfoModify';
+import { UpdatePassword } from '../pages/PasswordModify/PasswordModify';
 
 const axiosInstance = axios.create({
 	baseURL: 'http://localhost:3000/',
@@ -86,4 +88,30 @@ export async function freeze(id: number) {
 			id,
 		},
 	});
+}
+
+export async function getUserInfo() {
+	return await axiosInstance.get('/user/info');
+}
+
+export async function updateInfo(data: UserInfo) {
+	return await axiosInstance.post('/user/admin/update', data);
+}
+
+export async function updateUserInfoCaptcha() {
+	return await axiosInstance.get('/user/update/captcha');
+}
+
+export async function updatePasswordCaptcha(email: string) {
+	return await axiosInstance.get('/user/update_password/captcha', {
+		params: {
+			address: email,
+		},
+	});
+}
+
+export async function updatePassword(
+	data: UpdatePassword & { username: string }
+) {
+	return await axiosInstance.post('/user/admin/update_password', data);
 }
