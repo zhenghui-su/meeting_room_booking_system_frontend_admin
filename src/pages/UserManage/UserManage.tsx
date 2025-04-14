@@ -55,6 +55,10 @@ export function UserManage() {
 			{
 				title: '注册时间',
 				dataIndex: 'createTime',
+				render: (createTime) => {
+					// 2024-08-02T08:48:33.717Z -> 2024/8/2 16:48:33
+					return new Date(createTime).toLocaleString();
+				},
 			},
 			{
 				title: '状态',
@@ -91,29 +95,32 @@ export function UserManage() {
 		}
 	}, []);
 
-	const searchUser = useCallback(async (values: SearchUser) => {
-		const res = await userSearch(
-			values.username,
-			values.nickName,
-			values.email,
-			pageNo,
-			pageSize
-		);
-
-		const { data } = res.data;
-		if (res.status === 201 || res.status === 200) {
-			setUserResult(
-				data.users.map((item: UserSearchResult) => {
-					return {
-						key: item.username,
-						...item,
-					};
-				})
+	const searchUser = useCallback(
+		async (values: SearchUser) => {
+			const res = await userSearch(
+				values.username,
+				values.nickName,
+				values.email,
+				pageNo,
+				pageSize
 			);
-		} else {
-			message.error(data || '系统繁忙，请稍后再试');
-		}
-	}, []);
+
+			const { data } = res.data;
+			if (res.status === 201 || res.status === 200) {
+				setUserResult(
+					data.users.map((item: UserSearchResult) => {
+						return {
+							key: item.username,
+							...item,
+						};
+					})
+				);
+			} else {
+				message.error(data || '系统繁忙，请稍后再试');
+			}
+		},
+		[pageNo, pageSize]
+	);
 
 	const [form] = useForm();
 
