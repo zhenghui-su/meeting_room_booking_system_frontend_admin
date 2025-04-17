@@ -2,6 +2,8 @@ import { message } from 'antd';
 import axios from 'axios';
 import { UserInfo } from '../pages/InfoModify/InfoModify';
 import { UpdatePassword } from '../pages/PasswordModify/PasswordModify';
+import { CreateMeetingRoom } from '../pages/MeetingRoomManage/CreateMeetingRoomModal';
+import { UpdateMeetingRoom } from '../pages/MeetingRoomManage/UpdateMeetingRoom';
 
 const axiosInstance = axios.create({
 	baseURL: 'http://localhost:3000/',
@@ -114,4 +116,38 @@ export async function updatePassword(
 	data: UpdatePassword & { username: string }
 ) {
 	return await axiosInstance.post('/user/admin/update_password', data);
+}
+
+export async function meetingRoomList(
+	name: string,
+	capacity: number,
+	equipment: string,
+	pageNo: number,
+	pageSize: number
+) {
+	return await axiosInstance.get('/meeting-room/list', {
+		params: {
+			name,
+			capacity,
+			equipment,
+			pageNo,
+			pageSize,
+		},
+	});
+}
+
+export async function deleteMeetingRoom(id: number) {
+	return await axiosInstance.delete('/meeting-room/' + id);
+}
+
+export async function createMeetingRoom(meetingRoom: CreateMeetingRoom) {
+	return await axiosInstance.post('/meeting-room/create', meetingRoom);
+}
+
+export async function updateMeetingRoom(meetingRoom: UpdateMeetingRoom) {
+	return await axiosInstance.put('/meeting-room/update', meetingRoom);
+}
+
+export async function findMeetingRoom(id: number) {
+	return await axiosInstance.get('/meeting-room/' + id);
 }
