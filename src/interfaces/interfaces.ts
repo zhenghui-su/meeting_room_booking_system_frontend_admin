@@ -208,3 +208,21 @@ export async function reject(id: number) {
 export async function unbind(id: number) {
 	return await axiosInstance.get('/booking/unbind/' + id);
 }
+
+export async function userBookingCount(startTime: string, endTime: string) {
+	return await axiosInstance.get('/statistic/userBookingcount', {
+		params: {
+			startTime,
+			endTime,
+		},
+	});
+}
+
+export async function meetingRoomUsedCount(startTime: string, endTime: string) {
+	return await axiosInstance.get('/statistic/meetingRoomUsedCount', {
+		params: {
+			startTime,
+			endTime,
+		},
+	});
+}
